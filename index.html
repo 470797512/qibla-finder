@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Qibla Finder</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 主罗盘区域 -->
+        <div class="compass-container">
+            <!-- 麦加方向提示 -->
+            <div class="qibla-info">
+                <div class="qibla-direction">
+                    <span class="info-label"></span>
+                    <span class="direction-value"></span>
+                </div>
+                <div class="qibla-distance">
+                    <span class="info-label"></span>
+                    <span class="distance-value"></span>
+                </div>
+            </div>
+            <svg class="compass" viewBox="0 0 400 400">
+                <defs>
+                    <filter id="soft-light">
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+                        <feOffset dx="0" dy="2"/>
+                        <feComponentTransfer>
+                            <feFuncA type="linear" slope="0.2"/>
+                        </feComponentTransfer>
+                        <feMerge>
+                            <feMergeNode/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                    
+                    <radialGradient id="center-glow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" style="stop-color:var(--highlight-color);stop-opacity:0.2"/>
+                        <stop offset="100%" style="stop-color:var(--highlight-color);stop-opacity:0"/>
+                    </radialGradient>
+                </defs>
+                <!-- 简化的罗盘圆环 -->
+                <circle class="compass-ring" cx="200" cy="200" r="195" stroke-width="1" fill="none" />
+                <circle class="compass-inner-ring" cx="200" cy="200" r="185" stroke-width="0.5" fill="none" />
+                
+                <!-- 罗盘刻度装饰 -->
+                <g class="compass-decorations">
+                    <!-- 中心光晕 -->
+                    <circle class="center-glow" cx="200" cy="200" r="80" fill="url(#center-glow)"/>
+                </g>
+
+                <!-- 罗盘刻度 -->
+                <g class="degree-marks"></g>
+
+                <!-- 麦加方向指示器 -->
+                <g class="qibla-indicator">
+                    <!-- 简化的麦加指示器 -->
+                    <path class="qibla-arrow" d="M200,15 L205,165 L200,175 L195,165 Z" fill="#4CAF50"/>
+                </g>
+
+                <!-- 指针 -->
+                <g class="compass-arrow">
+                    <!-- 简化的指南针指针 -->
+                    <path class="arrow-body" d="M200,25 L208,175 L200,185 L192,175 Z" fill="#2196F3"/>
+                    <circle class="arrow-center" cx="200" cy="200" r="10" fill="#2196F3"/>
+                </g>
+            </svg>
+            <!-- 精度指示器 -->
+            <div class="accuracy-indicator">
+                <span class="accuracy-dot"></span>
+                <span class="accuracy-text" data-key="highAccuracy"></span>
+            </div>
+        </div>
+
+        <!-- 祷告时间面板 -->
+        <div class="prayer-times-panel">
+            <div class="next-prayer">
+                <h2>下一次祷告</h2>
+                <div class="time-display"></div>
+                <div class="countdown"></div>
+            </div>
+            <div class="prayer-list"></div>
+        </div>
+
+        <!-- 位置信息 -->
+        <div class="location-info">
+            <button class="location-button">
+                <svg class="location-icon" viewBox="0 0 24 24">
+                    <path d="M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"/>
+                </svg>
+                <span class="location-text">正在获取位置...</span>
+            </button>
+        </div>
+
+        <!-- 设置面板 -->
+        <div class="settings-panel">
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="zh">中文</button>
+                <button class="lang-btn" data-lang="ar">العربية</button>
+                <button class="lang-btn" data-lang="en">English</button>
+            </div>
+            <button class="settings-toggle">
+                <svg class="settings-icon" viewBox="0 0 24 24">
+                    <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/compass.js"></script>
+    <script src="js/prayer-times.js"></script>
+    <script src="js/location.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html> 

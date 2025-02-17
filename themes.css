@@ -1,0 +1,117 @@
+/* 浅色主题 */
+:root {
+    --primary-color: #007AFF;
+    --secondary-color: #5856D6;
+    --background-color: #FFFFFF;
+    --surface-color: #F2F2F7;
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --border-color: #E5E5EA;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 深色主题 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #0A84FF;
+        --secondary-color: #5E5CE6;
+        --background-color: #000000;
+        --surface-color: #1C1C1E;
+        --text-primary: #FFFFFF;
+        --text-secondary: #98989F;
+        --border-color: #38383A;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* 主题相关样式 */
+.app-container {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+}
+
+.compass-container {
+    background-color: var(--surface-color);
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.prayer-times-panel {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+}
+
+.prayer-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.prayer-name {
+    color: var(--text-primary);
+}
+
+.prayer-time {
+    color: var(--text-secondary);
+}
+
+.location-button {
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.settings-toggle {
+    background-color: var(--surface-color);
+    color: var(--primary-color);
+}
+
+.error-message {
+    background-color: #FF3B30;
+    color: #FFFFFF;
+    padding: 12px 20px;
+    border-radius: 8px;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+/* 适配深色模式的图标颜色 */
+.dark-theme .location-icon,
+.dark-theme .settings-icon {
+    fill: var(--text-primary);
+}
+
+/* 动画和过渡效果 */
+.compass,
+.prayer-times-panel,
+.location-button,
+.settings-toggle {
+    transition: all 0.3s ease;
+}
+
+/* 触摸反馈效果 */
+@media (hover: hover) {
+    .location-button:hover,
+    .settings-toggle:hover {
+        background-color: var(--primary-color);
+        color: #FFFFFF;
+    }
+}
+
+.location-button:active,
+.settings-toggle:active {
+    transform: scale(0.98);
+    opacity: 0.8;
+} 
